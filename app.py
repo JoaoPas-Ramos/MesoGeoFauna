@@ -1,4 +1,5 @@
 ﻿import streamlit as st
+from folium.plugins import HeatMap
 
 home_page = st.Page("views/home.py", title="Home")
 dashboard_page = st.Page("views/dashboard.py", title="Dashboard")

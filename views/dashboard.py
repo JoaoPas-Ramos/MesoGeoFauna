@@ -83,6 +83,15 @@ with st.sidebar:
     filtro_pais = st.selectbox("Filtrar por país", paises_disponiveis)
     filtro_localidade = st.text_input("Filtrar por localidade", placeholder="Ex: Bahariya")
 
+    modo_visualizacao = st.selectbox(
+        "Tipo de Visualização",
+        [
+            "Marcadores",
+            "Clusters",
+            "Mapa de Calor"
+        ]
+    )
+
 df_filtrado = df_limpo.copy()
 
 if filtro_pais != "Todos" and "País" in df_filtrado.columns:
@@ -155,7 +164,7 @@ st.markdown(
 )
 
 if not df_mapa.empty:
-    mapa = criar_mapa(df_mapa)
+    mapa = criar_mapa(df_mapa, modo_visualizacao)
     html(mapa._repr_html_(), height=560)
 else:
     st.info("Não há coordenadas disponíveis para exibir no mapa.")
