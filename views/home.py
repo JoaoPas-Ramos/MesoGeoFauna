@@ -24,33 +24,10 @@ A aplicação permite visualizar dados paleontológicos em mapas, gráficos e ta
 
     st.markdown("### Como usar")
     st.write("""
-1. Acesse o **Dashboard** para explorar os dados gerais.
+1. Acesse o **Dashboard** na sidebar para explorar os dados gerais.
 2. Utilize os filtros para refinar a busca.
 3. Acesse as páginas de **Análise** para obter interpretações específicas.
 """)
-
-with col2:
-    st.markdown("### Páginas disponíveis")
-    st.info("""
-Dashboard  
-Visualização geral dos dados com mapa, gráfico e tabela.
-
-Análise Temporal  
-Distribuição das ocorrências ao longo do tempo geológico.
-
-Análise Geográfica  
-Distribuição espacial e concentração por países/regiões.
-""")
-
-st.markdown("### Navegação rápida")
-
-c1, c2, c3 = st.columns(3)
-with c1:
-    st.page_link("views/dashboard.py", label="Dashboard")
-with c2:
-    st.page_link("views/analise_temporal.py", label="Análise Temporal")
-with c3:
-    st.page_link("views/analise_geografica.py", label="Análise Geográfica")
 
 st.markdown("---")
 

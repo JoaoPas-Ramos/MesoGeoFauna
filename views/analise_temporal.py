@@ -1,7 +1,7 @@
 import streamlit as st
 import plotly.express as px
 
-from services.pbdb_service import buscar_ocorrencias
+from services.pbdb_service import buscar_ocorrencias, buscar_sugestoes_taxon
 from utils.data_processing import preparar_dados, classificar_periodo
 from styles.theme import carregar_css
 
@@ -17,7 +17,32 @@ PERIODOS = {
     "Cretáceo": "Cretaceous"
 }
 
-busca = st.text_input("Pesquisar táxon")
+@st.cache_data(show_spinner=False)
+def obter_sugestoes_taxon(termo, limite=200):
+    return buscar_sugestoes_taxon(termo, limite)
+
+sugestoes = obter_sugestoes_taxon("")
+
+opcoes_taxon = ["Todos os táxons"]
+mapa_rotulos = {"Todos os táxons": ""}
+
+for item in sugestoes:
+    opcoes_taxon.append(item["rotulo"])
+    mapa_rotulos[item["rotulo"]] = item["nome"]
+
+taxon_escolhido_rotulo = st.selectbox(
+    "Busca de táxon",
+    opcoes_taxon,
+    index=None,
+    accept_new_options=True,
+    placeholder=""
+)
+
+busca = mapa_rotulos.get(
+    taxon_escolhido_rotulo,
+    taxon_escolhido_rotulo
+)
+
 limite = st.slider("Quantidade", 10, 200, 50)
 periodo = st.selectbox("Período", list(PERIODOS.keys()))
 

@@ -29,7 +29,7 @@ def obter_ocorrencias(busca_taxon, limite_registros, intervalo):
     return buscar_ocorrencias(busca_taxon, limite_registros, intervalo)
 
 @st.cache_data(show_spinner=False)
-def obter_sugestoes_taxon(termo, limite=10):
+def obter_sugestoes_taxon(termo, limite=200):
     return buscar_sugestoes_taxon(termo, limite)
 
 with st.sidebar:
@@ -44,17 +44,27 @@ with st.sidebar:
         unsafe_allow_html=True
     )
 
-    termo_taxon = st.text_input("Pesquisar táxon", placeholder="Ex: Spino")
-    sugestoes = obter_sugestoes_taxon(termo_taxon)
+    sugestoes = obter_sugestoes_taxon("")
 
     opcoes_taxon = ["Todos os táxons"]
     mapa_rotulos = {"Todos os táxons": ""}
+
     for item in sugestoes:
         opcoes_taxon.append(item["rotulo"])
         mapa_rotulos[item["rotulo"]] = item["nome"]
 
-    taxon_escolhido_rotulo = st.selectbox("Sugestões de táxon", opcoes_taxon)
-    busca = mapa_rotulos[taxon_escolhido_rotulo]
+    taxon_escolhido_rotulo = st.selectbox(
+        "Busca de táxon",
+        opcoes_taxon,
+        index=None,
+        accept_new_options=True,
+        placeholder=""
+    )
+
+    busca = mapa_rotulos.get(
+        taxon_escolhido_rotulo,
+        taxon_escolhido_rotulo
+    )
     limite = st.slider("Quantidade de registros", min_value=10, max_value=200, value=50)
     periodo = st.radio("Período do Mesozoico", list(PERIODOS.keys()), index=0)
 
